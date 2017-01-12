@@ -7,7 +7,7 @@
 # Abel García Dorta <mercuriete@gmail.com> 
 # Roger S <narayanroger@gmail.com>
 
-FROM eclipse/ubuntu_jre
+FROM eclipse/stack-base:ubuntu
 
 MAINTAINER narayanroger@gmail.com
 

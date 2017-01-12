@@ -6,26 +6,13 @@
 # Contributors:
 # Codenvy, S.A. - initial API and implementation
 
-FROM ubuntu:14.04
+FROM eclipse/stack-base:ubuntu
 
-ENV MAVEN_VERSION=3.3.9 \
-   JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-ENV M2_HOME=/home/user/apache-maven-$MAVEN_VERSION
 ENV TERM xterm
-ENV LANG en_GB.UTF-8
-ENV LANG en_US.UTF-8
-RUN sudo locale-gen en_US.UTF-8
-ENV PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
 ENV ANDROID_HOME=/home/user/android-sdk-linux
 ENV PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 LABEL che:server:6080:ref=VNC che:server:6080:protocol=http
-
-RUN echo "%sudo ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    useradd -u 1000 -G users,sudo -d /home/user --shell /bin/bash -m user && \
-    echo "secret\nsecret" | passwd user
-
-USER user
 
 RUN sudo dpkg --add-architecture i386 && \
     sudo apt-get update && sudo apt-get install -y --force-yes expect libswt-gtk-3-java lib32z1 lib32ncurses5 lib32stdc++6 supervisor x11vnc xvfb net-tools \
@@ -62,12 +49,4 @@ RUN sudo dpkg --add-architecture i386 && \
 
 ADD index.html /opt/noVNC/
 ADD supervisord.conf /opt/
-RUN svn --version && \
-    sed -i 's/# store-passwords = no/store-passwords = yes/g' /home/user/.subversion/servers && \
-    sed -i 's/# store-plaintext-passwords = no/store-plaintext-passwords = yes/g' /home/user/.subversion/servers
-ENTRYPOINT ["/home/user/entrypoint.sh"]
 EXPOSE 4403 6080 22
-
-WORKDIR /projects
-
-CMD tail -f /dev/null

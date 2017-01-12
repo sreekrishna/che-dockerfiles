@@ -24,8 +24,5 @@ RUN sudo mkdir -p /etc/X11/blackbox && \
 
 ADD supervisord.conf /opt/
 RUN  echo "#! /bin/bash\n set -e\n sudo /usr/sbin/sshd -D &\n/usr/bin/supervisord -c /opt/supervisord.conf &\n exec \"\$@\"" > /home/user/entrypoint.sh && chmod a+x /home/user/entrypoint.sh
-RUN cat /home/user/entrypoint.sh
 EXPOSE 6080
-ENTRYPOINT ["/home/user/entrypoint.sh"]
-WORKDIR /projects
 CMD /usr/bin/supervisord -c /opt/supervisord.conf && tail -f /dev/null

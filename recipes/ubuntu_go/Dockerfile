@@ -1,4 +1,4 @@
-FROM eclipse/ubuntu_jre
+FROM eclipse/stack-base:ubuntu
 RUN sudo apt-get update && sudo apt-get install -y --no-install-recommends \
     g++ \
     gcc \
