@@ -10,23 +10,14 @@ FROM eclipse/stack-base:ubuntu
 
 ENV TERM xterm
 ENV ANDROID_HOME=/home/user/android-sdk-linux
+ENV MAVEN_VERSION=3.3.9
 ENV PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 LABEL che:server:6080:ref=VNC che:server:6080:protocol=http
 
 RUN sudo dpkg --add-architecture i386 && \
     sudo apt-get update && sudo apt-get install -y --force-yes expect libswt-gtk-3-java lib32z1 lib32ncurses5 lib32stdc++6 supervisor x11vnc xvfb net-tools \
-    blackbox rxvt-unicode xfonts-terminus sudo openssh-server procps \
-    wget unzip mc curl software-properties-common python-software-properties && \
-    sudo mkdir /var/run/sshd && \
-    sudo sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
-    sudo add-apt-repository ppa:git-core/ppa && \
-    sudo add-apt-repository ppa:openjdk-r/ppa && \
-    sudo apt-get update && \
-    sudo sudo apt-get install git subversion -y && \
-    sudo apt-get install git -y && \
-    sudo apt-get install openjdk-8-jdk -y && \
-    sudo update-ca-certificates -f && \
+    blackbox rxvt-unicode xfonts-terminus sudo openssh-server procps && \
     mkdir /home/user/apache-maven-$MAVEN_VERSION && \
     wget -qO- "https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" | tar -zx --strip-components=1 -C /home/user/apache-maven-$MAVEN_VERSION/ && \
     cd /home/user && wget --output-document=android-sdk.tgz --quiet http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && tar -xvf android-sdk.tgz && rm android-sdk.tgz && \
@@ -44,9 +35,8 @@ RUN sudo dpkg --add-architecture i386 && \
     sudo mkdir -p /etc/X11/blackbox && \
     echo "[begin] (Blackbox) \n [exec] (Terminal)     {urxvt -fn "xft:Terminus:size=12"} \n \
           [exec] (Emulator) {emulator64-arm -avd che} \n \
-          [end]" | sudo tee -a /etc/X11/blackbox/blackbox-menu && \
-    echo "#! /bin/bash\n set -e\n sudo /usr/sbin/sshd -D &\n/usr/bin/supervisord -c /opt/supervisord.conf &\n exec \"\$@\"" > /home/user/entrypoint.sh && chmod a+x /home/user/entrypoint.sh
-
+          [end]" | sudo tee -a /etc/X11/blackbox/blackbox-menu
 ADD index.html /opt/noVNC/
 ADD supervisord.conf /opt/
 EXPOSE 4403 6080 22
+CMD /usr/bin/supervisord -c /opt/supervisord.conf && tail -f /dev/null

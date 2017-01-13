@@ -7,7 +7,7 @@
 # Codenvy, S.A. - initial API and implementation
 
 FROM debian:jessie
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 \
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 RUN echo "deb http://ftp.debian.org/debian testing main" >> /etc/apt/sources.list && \
     apt-get update && \
