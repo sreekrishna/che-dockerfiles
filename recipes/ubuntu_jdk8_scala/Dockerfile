@@ -16,7 +16,7 @@ RUN apt-get update && \
     sudo sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure && \
     scalaVer="2.11.8"  && \
     sudo wget www.scala-lang.org/files/archive/scala-"$scalaVer".deb  && \
-    sudo wget https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb
+    sudo wget https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb  && \
     sudo dpkg -i scala-"$scalaVer".deb  && \
     sudo apt-get update  && \
     sudo apt-get install scala  && \
