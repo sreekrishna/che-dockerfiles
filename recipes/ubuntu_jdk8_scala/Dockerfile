@@ -20,7 +20,7 @@ RUN apt-get update && \
     sudo dpkg -i scala-"$scalaVer".deb  && \
     sudo apt-get update  && \
     sudo apt-get install scala  && \
-    sudo dpkg -i sbt.deb
+    sudo dpkg -i sbt.deb  && \
     sudo apt-get install sbt  && \
     apt-get clean && \
     apt-get -y autoremove && \
