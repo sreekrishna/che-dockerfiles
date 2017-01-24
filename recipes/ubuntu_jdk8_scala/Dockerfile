@@ -15,12 +15,13 @@ RUN apt-get update && \
     sudo update-ca-certificates -f && \
     sudo sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure && \
     scalaVer="2.11.8"  && \
+    sbtVer="0.13.13"  && \
     sudo wget www.scala-lang.org/files/archive/scala-"$scalaVer".deb  && \
-    sudo wget https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb  && \
-    sudo dpkg -i scala-"$scalaVer".deb  && \
+    sudo wget https://dl.bintray.com/sbt/debian/sbt-"$sbtVer".deb  && \
     sudo apt-get update  && \
+    sudo dpkg -i scala-"$scalaVer".deb  && \
     sudo apt-get install scala  && \
-    sudo dpkg -i sbt.deb  && \
+    sudo dpkg -i sbt-"$sbtVer".deb  && \
     sudo apt-get install sbt  && \
     apt-get clean && \
     apt-get -y autoremove && \
